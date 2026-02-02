@@ -11,12 +11,13 @@ st.write("Can you find the hidden 'True Line' just by looking at the noise?")
 # --- SIDEBAR CONTROLS ---
 st.sidebar.header("1. Generate the Data")
 n_points = st.sidebar.slider("Number of points", 10, 200, 50)
-noise_level = st.sidebar.slider("Noise (Error) Level", 0.1, 5.0, 1.5)
+noise_level = np.random.uniform(1,5)
 
 # Secret Formula parameters (Hidden from user or fixed)
 if 'true_a' not in st.session_state:
     st.session_state.true_a = np.round(np.random.uniform(-3, 3), 2)
     st.session_state.true_b = np.round(np.random.uniform(-5, 5), 2)
+    st.session_state.error = np.random.normal(0, noise_level, n_points)
 
 st.sidebar.header("2. Your Guess")
 user_a = st.sidebar.slider("Your Slope (a)", -5.0, 5.0, 0.0, 0.1)
@@ -27,6 +28,8 @@ with st.sidebar:
     st.divider()
     if st.button("🔄 Generate New Secret Formula", use_container_width=True):
         # Deleting the keys forces the 'if key not in session_state' block to re-run
+        new_seed = np.random.randint(1, 125)
+        np.random.seed(new_seed)
         st.session_state.true_a = np.round(np.random.uniform(-3, 3), 2)
         st.session_state.true_b = np.round(np.random.uniform(-5, 5), 2)
         
@@ -34,10 +37,10 @@ with st.sidebar:
         st.rerun()
 
 # --- DATA GENERATION ---
-#np.random.seed(42) # For consistent points while sliding
+
 x = np.linspace(0, 10, n_points)
-error = np.random.normal(0, noise_level, n_points)
-y_true_dots = st.session_state.true_a * x + st.session_state.true_b + error
+
+y_true_dots = st.session_state.true_a * x + st.session_state.true_b + st.session_state.error
 
 # --- PLOTTING ---
 fig, ax = plt.subplots(figsize=(10, 6))
