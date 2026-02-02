@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 
 # Page configuration
-st.set_page_config(page_title="Regression Intuition Game")
+st.set_page_config(page_title="Regression Intuition Game", layout="wide", initial_sidebar_state="expanded")  # Options: "auto", "expanded", "collapsed")
 st.title("🎯 The Linear Regression Challenge")
 st.write("Can you find the hidden 'True Line' just by looking at the noise?")
 
