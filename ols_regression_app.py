@@ -22,8 +22,19 @@ st.sidebar.header("2. Your Guess")
 user_a = st.sidebar.slider("Your Slope (a)", -5.0, 5.0, 0.0, 0.1)
 user_b = st.sidebar.slider("Your Intercept (b)", -10.0, 10.0, 0.0, 0.1)
 
+# --- SIDEBAR RESET BUTTON ---
+with st.sidebar:
+    st.divider()
+    if st.button("🔄 Generate New Secret Formula", use_container_width=True):
+        # Deleting the keys forces the 'if key not in session_state' block to re-run
+        st.session_state.true_a = np.round(np.random.uniform(-3, 3), 2)
+        st.session_state.true_b = np.round(np.random.uniform(-5, 5), 2)
+        
+        # Rerun the app to generate new values immediately
+        st.rerun()
+
 # --- DATA GENERATION ---
-np.random.seed(42) # For consistent points while sliding
+#np.random.seed(42) # For consistent points while sliding
 x = np.linspace(0, 10, n_points)
 error = np.random.normal(0, noise_level, n_points)
 y_true_dots = st.session_state.true_a * x + st.session_state.true_b + error
