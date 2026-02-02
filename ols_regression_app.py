@@ -10,13 +10,14 @@ st.write("Can you find the hidden 'True Line' just by looking at the noise?")
 
 # --- SIDEBAR CONTROLS ---
 st.sidebar.header("1. Generate the Data")
-n_points = st.sidebar.slider("Number of points", 10, 200, 50)
 noise_level = np.random.uniform(1,5)
+n_points = 50 # st.sidebar.slider("Number of points", 10, 200, 50)
 
 # Secret Formula parameters (Hidden from user or fixed)
 if 'true_a' not in st.session_state:
     st.session_state.true_a = np.round(np.random.uniform(-3, 3), 2)
     st.session_state.true_b = np.round(np.random.uniform(-5, 5), 2)
+
     st.session_state.error = np.random.normal(0, noise_level, n_points)
 
 st.sidebar.header("2. Your Guess")
